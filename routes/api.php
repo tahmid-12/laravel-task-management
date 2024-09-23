@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TaskController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,12 +18,13 @@ use App\Http\Controllers\AuthController;
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 
-Route::prefix('auth')->group(function () {
-    Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:api');
-});
-
 Route::middleware('auth:api')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/tasks', [TaskController::class, 'getTasks']);
+    Route::post('/tasks', [TaskController::class, 'createTask']);
+    Route::get('/tasks/{id}', [TaskController::class, 'showTask']);
+    Route::put('/tasks/{id}', [TaskController::class, 'updateTask']);
+    Route::delete('/tasks/{id}', [TaskController::class, 'deleteTask']);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
