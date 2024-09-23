@@ -15,7 +15,7 @@ class AuthController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed', // Password confirmation validation
+            'password' => 'required|string|min:8|confirmed',
         ]);
 
         $user = User::create([
@@ -45,7 +45,6 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         try {
-            // Invalidate the token
             JWTAuth::invalidate(JWTAuth::getToken());
 
             return response()->json(['message' => 'Successfully logged out'], 200);
